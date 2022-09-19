@@ -14,46 +14,46 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_SECRET as string,
     }),
     // Email & Password
-    CredentialsProvider({
-      id: "credentials",
-      name: "Credentials",
-      credentials: {
-        email: {
-          label: "Email",
-          type: "text",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-        },
-      },
-      async authorize(credentials) {
-        await dbConnect();
+    // CredentialsProvider({
+    //   id: "credentials",
+    //   name: "Credentials",
+    //   credentials: {
+    //     email: {
+    //       label: "Email",
+    //       type: "text",
+    //     },
+    //     password: {
+    //       label: "Password",
+    //       type: "password",
+    //     },
+    //   },
+    //   async authorize(credentials) {
+    //     await dbConnect();
 
-        // Find user with the email
-        const user = await User.findOne({
-          email: credentials?.email,
-        });
+    //     // Find user with the email
+    //     const user = await User.findOne({
+    //       email: credentials?.email,
+    //     });
 
-        // Email Not found
-        if (!user) {
-          throw new Error("Email is not registered");
-        }
+    //     // Email Not found
+    //     if (!user) {
+    //       throw new Error("Email is not registered");
+    //     }
 
-        // Check hased password with DB hashed password
-        const isPasswordCorrect = await compare(
-          credentials!.password,
-          user.hashedPassword
-        );
+    //     // Check hased password with DB hashed password
+    //     const isPasswordCorrect = await compare(
+    //       credentials!.password,
+    //       user.hashedPassword
+    //     );
 
-        // Incorrect password
-        if (!isPasswordCorrect) {
-          throw new Error("Password is incorrect");
-        }
+    //     // Incorrect password
+    //     if (!isPasswordCorrect) {
+    //       throw new Error("Password is incorrect");
+    //     }
 
-        return user;
-      },
-    }),
+    //     return user;
+    //   },
+    // }),
   ],
   pages: {
     signIn: "/auth",
